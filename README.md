@@ -7,5 +7,5 @@ Simple exercises tracker written in python 3.14
 
 ## Quick Start
 ```bash
-pip install questionary loguru plyer
+pip install questionary loguru plyer playsound
 python main.py

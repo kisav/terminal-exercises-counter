@@ -2,6 +2,7 @@ import questionary
 from loguru import logger
 import time
 from plyer import notification
+from playsound import playsound
 
 logger.add("workout_stats.log", format="{time:YYYY-MM-DD HH:mm:ss} | {message}")
 EXERCIES = ["приседаний", "отжиманий", "пресса"]
@@ -28,3 +29,4 @@ while True:
         app_name='terminal_exercise',
         timeout=10
     )
+    playsound('alarm.mp3')
