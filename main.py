@@ -2,12 +2,14 @@ import questionary
 import time
 from plyer import notification
 from playsound import playsound
-from conf_utils import get_time
+from conf_utils import get_time, save_time
 from terminal_parser import term_parse
-from db_utils import init_db, add_exercise
+from db_utils import init_db, add_exercise, show_stats
 
 init_db()
 EXERCIES = ["приседаний", "отжиманий", "пресса"]
+args = term_parse()
+
 
 def ask_exs():
     for e in EXERCIES:
@@ -21,12 +23,29 @@ def ask_exs():
     
     print("Данные сохранены. Следующий опрос через 15 минут.")
 
-while True:
-    result = term_parse()
 
-    if isinstance(result, str):
-        print(result)
-        exit()
+if args.time and not args.save:
+    sleepy_time = args.time
+elif not args.time:
+    sleepy_time = get_time()
+elif args.time and args.save:
+    sleepy_time = args.time
+    save_time(args.time)
+    print(sleepy_time)
+    exit()
+
+if args.stats is None:
+    pass
+elif args.stats == 0:
+    print(show_stats(None))
+    exit()
+else:
+    print(show_stats(args.stats))
+    exit()
+
+while True:
+    
+
     notification.notify(
         title='Упражнения',
         message='Пора размяться!',
@@ -34,11 +53,6 @@ while True:
         timeout=10
     )
     playsound('alarm.mp3')
-    if result == -1:
-        sleepy_time = get_time()
-        print(sleepy_time)
-    else:
-        sleepy_time = result
-        print(sleepy_time)
+    print(sleepy_time)
     ask_exs()
     time.sleep(sleepy_time)
