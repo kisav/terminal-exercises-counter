@@ -3,11 +3,14 @@ from loguru import logger
 import time
 from plyer import notification
 from playsound import playsound
+from conf_utils import get_time
+from terminal_parser import term_parse
+
 
 logger.add("workout_stats.log", format="{time:YYYY-MM-DD HH:mm:ss} | {message}")
 EXERCIES = ["приседаний", "отжиманий", "пресса"]
 
-def ask():
+def ask_exs():
     
     for e in EXERCIES:
         count = questionary.text(
@@ -21,8 +24,7 @@ def ask():
     print("Данные сохранены. Следующий опрос через 15 минут.")
 
 while True:
-    ask()
-    time.sleep(10) 
+    term_parse()
     notification.notify(
         title='Упражнения',
         message='Пора размяться!',
@@ -30,3 +32,11 @@ while True:
         timeout=10
     )
     playsound('alarm.mp3')
+    if term_parse() == -1:
+        sleepy_time = get_time()
+        print(sleepy_time)
+    else:
+        sleepy_time = term_parse()
+        print(sleepy_time)
+    ask_exs()
+    time.sleep(sleepy_time)
