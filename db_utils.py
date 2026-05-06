@@ -29,32 +29,29 @@ def add_exercise(exercise, count):
     conn.commit()
     conn.close()
 
-def show_stats():
+def show_stats(days=None):
     conn = sqlite3.connect("exercises.db")
     cursor = conn.cursor()
 
-    cursor.execute("""
-    SELECT SUM(count)
-    FROM exercies
-    WHERE exercise = "приседаний"
-    """)
+    if days is None:
+        cursor.execute("""
+        SELECT exercise, SUM(count)
+        FROM exercies
+        GROUP BY exercise
+        """)
+    else:
+        cursor.execute("""
+        SELECT exercise, SUM(count)
+        FROM exercies
+        WHERE date >= datetime('now', ?)
+        GROUP BY exercise
+        """, (f'-{days} days',))
 
-    squats = cursor.fetchone()[0] or 0
+    rows = cursor.fetchall()
 
-    cursor.execute("""
-    SELECT SUM(count)
-    FROM exercies
-    WHERE exercise = "отжиманий"
-    """)
+    result = []
 
-    pushups = cursor.fetchone()[0] or 0
+    for exercise, total in rows:
+        result.append(f"{exercise}: {total}")
 
-    cursor.execute("""
-    SELECT SUM(count)
-    FROM exercies
-    WHERE exercise = "пресса"
-    """)
-
-    pullups = cursor.fetchone()[0] or 0
-
-    return f"Отжимания: {pushups} \n Приседания: {squats} \n Пресс: {pullups} \n"
+    return "\n".join(result)
