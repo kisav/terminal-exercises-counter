@@ -2,12 +2,12 @@ import questionary
 import time
 from plyer import notification
 from playsound import playsound
-from conf_utils import get_time, save_time
+from conf_utils import get_time, save_time, add_exercises, get_exercises
 from terminal_parser import term_parse
 from db_utils import init_db, add_exercise, show_stats
 
 init_db()
-EXERCIES = ["приседаний", "отжиманий", "пресса"]
+EXERCIES = get_exercises()
 args = term_parse()
 
 
@@ -23,7 +23,13 @@ def ask_exs():
     
     print("Данные сохранены. Следующий опрос через 15 минут.")
 
-
+if args.configure:
+    exercises = questionary.text(
+        f"Введите название упражнения, которое хотите добавить "
+    ).ask()
+    add_exercises(exercises)
+    print(f"Упражнение {exercises} успешно добавлено")
+    exit()
 if args.time and not args.save:
     sleepy_time = args.time
 elif not args.time:

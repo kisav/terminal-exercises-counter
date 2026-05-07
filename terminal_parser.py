@@ -8,6 +8,7 @@ def term_parse():
     parser.add_argument("-t", "--time", type=int, help="Minutes interval")
     parser.add_argument("--save", action="store_true", help="save settings")
     parser.add_argument("--stats",nargs="?",const=0, type=int, help="stats for n days")
+    parser.add_argument("--configure", action="store_true", help="adds types of exercises")
 
     args = parser.parse_args()
 
