@@ -35,17 +35,17 @@ def show_stats(days=None):
 
     if days is None:
         cursor.execute("""
-        SELECT exercise, SUM(count)
-        FROM exercies
-        GROUP BY exercise
+            SELECT exercise, SUM(count)
+            FROM exercies
+            GROUP BY exercise
         """)
     else:
         cursor.execute("""
-        SELECT exercise, SUM(count)
-        FROM exercies
-        WHERE date >= datetime('now', ?)
-        GROUP BY exercise
-        """, (f'-{days} days',))
+            SELECT exercise, SUM(count)
+            FROM exercies
+            WHERE date >= date('now', ? , 'start of day')
+            GROUP BY exercise
+        """, (f'-{days-1} days',))
 
     rows = cursor.fetchall()
 
