@@ -28,7 +28,7 @@ def get_exercises():
     config.read('app.conf')
 
     try:
-        exercises = config["EXERCISES"]["exercises"].split(",")
+        exercises = config["EXERCISES"]["exercises"].split(" ")
     except KeyError:
         config['EXERCISES'] = {
             "exercises":""
@@ -45,7 +45,7 @@ def add_exercises(exercise):
     exercises.append(exercise)
 
     config["EXERCISES"] = {
-        "exercises": ",".join(exercises)
+        "exercises": " ".join(exercises)
     }
 
     with open("app.conf", "w") as f:
