@@ -2,9 +2,10 @@ import questionary
 import time
 from plyer import notification
 from playsound import playsound
-from conf_utils import get_time, save_time, add_exercises, get_exercises
+from conf_utils import get_time, save_time, add_exercises
 from terminal_parser import term_parse
 from db_utils import init_db, show_stats
+from asker import ask_exs
 
 init_db()
 
