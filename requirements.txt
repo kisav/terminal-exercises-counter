@@ -1,0 +1,10 @@
+markdown-it-py==4.0.0
+mdurl==0.1.2
+playsound==1.2.2
+plyer==2.1.0
+prompt_toolkit==3.0.52
+pycairo==1.29.0
+Pygments==2.20.0
+PyGObject==3.56.2
+questionary==2.1.1
+wcwidth==0.6.0
