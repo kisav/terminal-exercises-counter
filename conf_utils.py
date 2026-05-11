@@ -1,7 +1,9 @@
 import configparser
 
+config = configparser.ConfigParser()
+
+
 def save_time(time):
-    config = configparser.ConfigParser()
 
     config['SETTINGS'] = {
         "time":f"{time}"
@@ -13,7 +15,6 @@ def save_time(time):
 
 
 def get_time():
-    config = configparser.ConfigParser()
     config.read("app.conf")
 
     try:
@@ -24,7 +25,6 @@ def get_time():
         return 15
 
 def get_exercises():
-    config = configparser.ConfigParser()
     config.read('app.conf')
 
     try:
@@ -39,7 +39,6 @@ def get_exercises():
     return exercises
 
 def add_exercises(exercise):
-    config = configparser.ConfigParser()
 
     exercises = get_exercises()
 
