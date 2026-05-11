@@ -4,24 +4,13 @@ from plyer import notification
 from playsound import playsound
 from conf_utils import get_time, save_time, add_exercises, get_exercises
 from terminal_parser import term_parse
-from db_utils import init_db, add_exercise, show_stats
+from db_utils import init_db, show_stats
 
 init_db()
-EXERCIES = get_exercises()
+
 args = term_parse()
 
 
-def ask_exs():
-    for e in EXERCIES:
-        count = questionary.text(
-            f"Введите сколько вы сделали {e}",
-            default="10"
-        ).ask()
-        if count.isdigit() and int(count) > 0:
-                add_exercise(e, int(count))
-                print(f"✅ {e} зафиксировано: {count}")
-    
-    print("Данные сохранены. Следующий опрос через 15 минут.")
 
 if args.configure:
     exercises = questionary.text(
@@ -59,6 +48,7 @@ while True:
         timeout=10
     )
     playsound('alarm.mp3')
-    print(sleepy_time)
+
     ask_exs()
+    print(f"Следующий запрос через {sleepy_time} секунд.")
     time.sleep(sleepy_time)
